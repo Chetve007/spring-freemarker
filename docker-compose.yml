@@ -1,0 +1,25 @@
+version: '3.7'
+services:
+  web:
+    image: tomcat
+#    environment:
+#      JDBC_URL: jdbc:mysql://db:3306/springProj?useSll=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+#      JDBC_USER: root
+#      JDBC_PASS: password
+    ports:
+      - "9090:8080"
+    volumes:
+      - ./target/springProject-1.0.war:/usr/local/tomcat/webapps/ROOT.war
+      - ./target/springProject-1.0:/usr/local/tomcat/webapps/ROOT
+    links:
+      - db
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: springProj
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - "3308:3306"
+    volumes:
+      - /tmp/springProj:/var/lib/mysql/springProj
